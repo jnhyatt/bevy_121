@@ -1,0 +1,13 @@
+[package]
+name = "bevy_121"
+version = "0.1.0"
+authors = ["Josh Hyatt <joshua.n.hyatt@gmail.com>"]
+edition = "2024"
+license = "MIT OR Apache-2.0"
+description = "One-to-one relationships for Bevy ECS"
+repository = "https://github.com/jnhyatt/bevy_121"
+keywords = ["bevy", "ecs", "relationships", "relations"]
+
+[dependencies]
+bevy_121_macros = { path = "../bevy_121_macros" }
+bevy_ecs = { version = "0.16", default-features = false }
