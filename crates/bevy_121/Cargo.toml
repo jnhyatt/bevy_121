@@ -7,7 +7,7 @@ license = "MIT OR Apache-2.0"
 description = "One-to-one relationships for Bevy ECS"
 repository = "https://github.com/jnhyatt/bevy_121"
 keywords = ["bevy", "ecs", "relationships", "relations"]
-readme = "../README.md"
+readme = "../../README.md"
 
 [dependencies]
 bevy_121_macros = { version = "0.1.0", path = "../bevy_121_macros" }
