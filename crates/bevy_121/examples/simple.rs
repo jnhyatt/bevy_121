@@ -12,6 +12,9 @@ fn main() {
     // Alice is in over her head, have Cart take over
     world.entity_mut(cart).insert(Assignment(bsn));
     assert_eq!(world.entity(bsn).get::<Assignee>().unwrap().0, cart);
+    // Cart finished the assignment, time to clean up.
+    world.despawn(bsn);
+    assert!(world.entity(cart).get::<Assignment>().is_none());
 }
 
 #[derive(AsymmetricOneToOne)]
