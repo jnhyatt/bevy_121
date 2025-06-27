@@ -63,20 +63,30 @@ pub fn derive_asymmetric_one_to_one(input: TokenStream) -> TokenStream {
             fn on_insert() -> Option<#bevy_ecs_path::component::ComponentHook> {
                 Some(|mut world, ctx| {
                     let target = world.entity(ctx.entity).get::<Self>().expect("How did we get here?").0;
-                    if world.entity(target).get::<#target>().map(|x| x.0) == Some(ctx.entity) {
-                        return;
+                    if let Ok(target_entity) = world.get_entity(target) {
+                        if target_entity.get::<#target>().map(|x| x.0) == Some(ctx.entity) {
+                            return;
+                        }
                     }
-                    world.commands().entity(target).insert(#target(ctx.entity));
+                    if let Ok(mut entity_commands) = world.commands().get_entity(target) {
+                        entity_commands.insert(#target(ctx.entity));
+                    } else {
+                        world.commands().entity(ctx.entity).remove::<Self>();
+                    }
                 })
             }
 
             fn on_replace() -> Option<#bevy_ecs_path::component::ComponentHook> {
                 Some(|mut world, ctx| {
                     let target = world.entity(ctx.entity).get::<Self>().expect("How did we get here?").0;
-                    if world.entity(target).get::<#target>().map(|x| x.0) != Some(ctx.entity) {
-                        return;
+                    if let Ok(target_entity) = world.get_entity(target) {
+                        if target_entity.get::<#target>().map(|x| x.0) != Some(ctx.entity) {
+                            return;
+                        }
                     }
-                    world.commands().entity(target).remove::<#target>();
+                    if let Ok(mut entity_commands) = world.commands().get_entity(target) {
+                        entity_commands.remove::<#target>();
+                    }
                 })
             }
         }
